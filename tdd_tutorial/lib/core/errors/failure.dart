@@ -7,6 +7,8 @@ abstract class Failure extends Equatable {
   final String message;
   final int statusCode;
 
+  String get errorMessage => '$statusCode Error: $message';
+
   @override
   List<Object?> get props => [message, statusCode];
 }
@@ -14,5 +16,6 @@ abstract class Failure extends Equatable {
 class ApiFailure extends Failure {
   const ApiFailure({required super.message, required super.statusCode});
 
-  ApiFailure.fromException(ApiException ex): this(message: ex.message, statusCode: ex.statusCode);
+  ApiFailure.fromException(ApiException ex)
+      : this(message: ex.message, statusCode: ex.statusCode);
 }
