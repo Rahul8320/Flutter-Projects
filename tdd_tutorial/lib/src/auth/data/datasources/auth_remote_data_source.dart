@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:tdd_tutorial/core/errors/exceptions.dart';
 import 'package:tdd_tutorial/core/utils/typedef.dart';
 import 'package:tdd_tutorial/src/auth/data/models/user_model.dart';
@@ -44,15 +43,21 @@ class AuthRemoteDataSourceImplement implements AuthRemoteDataSource {
 
   @override
   Future<List<UserModel>> getUsers() async {
-    final response = await _client.get(Uri.parse("$apiBaseUrl/users"));
+    try {
+      final response = await _client.get(Uri.parse("$apiBaseUrl/users"));
 
-    // if (response.statusCode != 200) {
-    //   throw ApiException(
-    //       message: response.body, statusCode: response.statusCode);
-    // }
+      if (response.statusCode != 200) {
+        throw ApiException(
+            message: response.body, statusCode: response.statusCode);
+      }
 
-    return List<DataMap>.from(jsonDecode(response.body) as List)
-        .map((userData) => UserModel.fromMap(userData))
-        .toList();
+      return List<DataMap>.from(jsonDecode(response.body) as List)
+          .map((userData) => UserModel.fromMap(userData))
+          .toList();
+    } on ApiException {
+      rethrow;
+    } catch (e) {
+      throw ApiException(message: e.toString(), statusCode: 505);
+    }
   }
 }
