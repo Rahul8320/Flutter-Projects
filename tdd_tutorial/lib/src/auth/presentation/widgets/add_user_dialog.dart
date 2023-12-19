@@ -10,14 +10,17 @@ class AddUserDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
+      type: MaterialType.transparency,
       child: Center(
         child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 20),
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             color: Colors.white,
           ),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
                 controller: nameController,
@@ -25,11 +28,19 @@ class AddUserDialog extends StatelessWidget {
                   labelText: 'username',
                 ),
               ),
-              ElevatedButton(onPressed: () {
-                const avatar = 'https://images.unsplash.com/photo-1702692625117-c718df0a73fb?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
-                final name = nameController.text.trim();
-                context.read<AuthCubit>().createUser(name: name, avatar: avatar, createdAt: DateTime.now().toString());
-              }, child: const Text('Create User'),)
+              ElevatedButton(
+                onPressed: () {
+                  const avatar =
+                      'https://images.unsplash.com/photo-1702692625117-c718df0a73fb?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
+                  final name = nameController.text.trim();
+                  context.read<AuthCubit>().createUser(
+                      name: name,
+                      avatar: avatar,
+                      createdAt: DateTime.now().toString());
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Create User'),
+              )
             ],
           ),
         ),

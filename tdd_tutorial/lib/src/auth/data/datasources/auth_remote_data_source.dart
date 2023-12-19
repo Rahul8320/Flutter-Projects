@@ -26,9 +26,14 @@ class AuthRemoteDataSourceImplement implements AuthRemoteDataSource {
       required String name,
       required String avatar}) async {
     try {
-      final response = await _client.post(Uri.parse('$apiBaseUrl/users'),
-          body: jsonEncode(
-              {'createdAt': createdAt, 'name': name, 'avatar': avatar}));
+      final response = await _client.post(
+        Uri.parse('$apiBaseUrl/users'),
+        body: jsonEncode(
+            {'createdAt': createdAt, 'name': name, 'avatar': avatar}),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      );
 
       if (response.statusCode != 201) {
         throw ApiException(
