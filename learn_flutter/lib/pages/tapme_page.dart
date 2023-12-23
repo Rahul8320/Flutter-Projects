@@ -12,18 +12,18 @@ class TapMePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.deepPurple[200],
       appBar: AppBar(
-        title: const Text("Learn Flutter"),
-        backgroundColor: Colors.deepPurple,
-        elevation: 0,
-        leading: const Icon(Icons.menu),
-        actions: [
-          IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.logout,
-                color: Colors.blueGrey,
-              ))
-        ],
+        title: const Text("Tap Me Page"),
+        backgroundColor: Colors.deepPurpleAccent,
+        // elevation: 0,
+        // leading: const Icon(Icons.menu),
+        // actions: [
+        //   IconButton(
+        //       onPressed: () {},
+        //       icon: const Icon(
+        //         Icons.logout,
+        //         color: Colors.blueGrey,
+        //       ))
+        // ],
       ),
       body: Center(
           child: GestureDetector(

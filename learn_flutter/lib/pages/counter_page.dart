@@ -31,6 +31,86 @@ class _CounterPageState extends State<CounterPage> {
         ),
         backgroundColor: Colors.deepPurpleAccent,
       ),
+      drawer: Drawer(
+        backgroundColor: Colors.deepPurple[100],
+        child: Column(
+          children: [
+            const DrawerHeader(
+              child: Icon(
+                Icons.favorite,
+                size: 150,
+                color: Colors.deepPurpleAccent,
+              ),
+            ),
+
+            // home page list tile
+            ListTile(
+              leading: const Icon(
+                Icons.home_outlined,
+                size: 30,
+              ),
+              title: const Text(
+                "H O M E",
+                style: TextStyle(fontSize: 18),
+              ),
+              onTap: () {
+                // close the drawer
+                Navigator.pop(context);
+              },
+            ),
+
+            // counter page list tile
+            ListTile(
+              leading: const Icon(
+                Icons.countertops_outlined,
+                size: 30,
+              ),
+              title: const Text(
+                "C O U N T E R",
+                style: TextStyle(fontSize: 18),
+              ),
+              onTap: () {
+                // close the drawer
+                Navigator.pop(context);
+              },
+            ),
+
+            // list todo page list tile
+            ListTile(
+              leading: const Icon(
+                Icons.task_outlined,
+                size: 30,
+              ),
+              title: const Text(
+                "T O D O  L I S T",
+                style: TextStyle(fontSize: 18),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                // go to todo list page
+                Navigator.pushNamed(context, '/todo_list_page');
+              },
+            ),
+
+            // tap me page list tile
+            ListTile(
+              leading: const Icon(
+                Icons.tapas_outlined,
+                size: 30,
+              ),
+              title: const Text(
+                "T A P  M E",
+                style: TextStyle(fontSize: 18),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                // go to tap me page
+                Navigator.pushNamed(context, '/tapme_page');
+              },
+            ),
+          ],
+        ),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
