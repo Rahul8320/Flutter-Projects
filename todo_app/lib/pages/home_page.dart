@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:todo_app/components/dialog_box.dart';
 import 'package:todo_app/components/todo_tile.dart';
+import 'package:todo_app/data/database.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -10,23 +12,35 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  // reference the hive box
+  final _todoBox = Hive.box("todo");
+  ToDoDatabase db = ToDoDatabase();
+
+  @override
+  void initState() {
+    // if this is the first time ever opening the app, then create the default data
+    if (_todoBox.get("TODOLIST") == null) {
+      print("Creating init data...");
+      db.createInitialData();
+    } else {
+      // load the existing data
+      db.loadData();
+    }
+
+    super.initState();
+  }
+
   // text editing controller
   final TextEditingController _controller = TextEditingController();
-
-  // list of todo tasks.
-  List toDoList = [
-    ["Complete Flutter Tutorial", false],
-    ["Make Todo App Using Flutter", false],
-    ["Post This journey to LinkedIn", false],
-    ["Push the code on Github", false],
-    ["with screenshot of the todo app", false],
-  ];
 
   // check box was changed
   void onChangedCheckBox(bool? value, int index) {
     setState(() {
-      toDoList[index][1] = !toDoList[index][1];
+      db.toDoList[index][1] = !db.toDoList[index][1];
     });
+
+    // update the database
+    db.updateDatabase();
   }
 
   // save new task
@@ -35,13 +49,16 @@ class _HomePageState extends State<HomePage> {
     if (_controller.text.trim().isNotEmpty) {
       setState(() {
         // update the state of todo list
-        toDoList.add([_controller.text.trim(), false]);
+        db.toDoList.add([_controller.text.trim(), false]);
         // clear the controller text
         _controller.clear();
       });
     }
     // close the dialog
     Navigator.of(context).pop();
+
+    // update the database
+    db.updateDatabase();
   }
 
   // create todo dialog box
@@ -61,8 +78,11 @@ class _HomePageState extends State<HomePage> {
   // delete a task
   void deleteTask(int index) {
     setState(() {
-      toDoList.removeAt(index);
+      db.toDoList.removeAt(index);
     });
+
+    // update the database
+    db.updateDatabase();
   }
 
   @override
@@ -79,11 +99,11 @@ class _HomePageState extends State<HomePage> {
         child: const Icon(Icons.add_task),
       ),
       body: ListView.builder(
-        itemCount: toDoList.length,
+        itemCount: db.toDoList.length,
         itemBuilder: (context, index) {
           return TodoTile(
-            taskName: toDoList[index][0],
-            taskCompleted: toDoList[index][1],
+            taskName: db.toDoList[index][0],
+            taskCompleted: db.toDoList[index][1],
             onChanged: (value) => onChangedCheckBox(value, index),
             onDeleteTask: (context) => deleteTask(index),
           );
