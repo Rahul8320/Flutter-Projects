@@ -1,5 +1,15 @@
 import 'package:flutter/material.dart';
 
+/*
+  // Constant -> create and initialize at same time and value never changed.
+  const age = 27;
+  const twiceAge = age * 2;
+
+  // Variables
+  var name = "Foo"; // Value can be changed.
+  final college = "IIT" // Value never changed after initialized.
+*/
+
 void main() {
   runApp(const MyApp());
 }
